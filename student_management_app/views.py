@@ -15,6 +15,22 @@ def validate_mobile_number(value):
     return True
 
 # Create your views here.
+def HomeView(request):
+    """
+    Display Home Page.
+	It then renders a Homepage.html template to display
+    the Buttons.
+
+    Returns:
+	It display the 3 Buttons
+		-Admin SignIn
+		-user SignIn
+		-SignUp
+		
+    """
+    return render(request,'HomePage.html')
+
+# Create your views here.
 def UserLoginView(request):
     """
     Display user SignIn page.
