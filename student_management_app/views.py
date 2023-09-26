@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import User
 
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import User as Admin
 
 def validate_mobile_number(value):
     """
@@ -49,3 +51,40 @@ def UserLoginView(request):
             context["user"] = "User not found.."
             return render(request,'UserLogin.html', context)
     return render(request,'UserLogin.html',context)
+
+def AdminLoginView(request):
+    """
+    Display Admin SignIn page.
+
+    This view takes Admin-Email,password as a parameter and it will check from the database 
+    based on that parameters,whether the admin is available or not
+    It then renders a AdminLogin.html template to display the input fields-Email,password.
+    If Admin is available then it renders a summaryPage.html template to display all the user details.
+    Then it has a Logout button which renders to Homepage.
+
+    Parameters:
+        - Email
+	- password
+
+    Returns:
+        - First it display the Admin login page with 2 input fields-Email,password.
+	- Then it display Summery page which shows all details of users
+    """
+    context = {}
+    context["users"] = ''
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        t = User.objects.all()
+        try:
+            a1 = Admin.objects.get(email=email)
+            if check_password(password,a1.password):
+                context['users'] = t
+                return render(request, "summaryPage.html",context)
+            else:
+                context["users"] = "Incorrect password.."
+                return render(request,'AdminLogin.html', context)
+        except:
+            context["users"] = "Admin not found.."
+            return render(request,'AdminLogin.html', context)
+    return render(request,'AdminLogin.html')
