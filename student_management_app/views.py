@@ -14,6 +14,34 @@ def validate_mobile_number(value):
         return False
     return True
 
+def validate_password(password):
+    """
+    Validate the input password.
+    """
+    # Rule 1: Minimum length (e.g., at least 8 characters)
+    if len(password) < 8:
+        return False
+
+    # Rule 2: Contains at least one uppercase letter
+    if not any(char.isupper() for char in password):
+        return False
+
+    # Rule 3: Contains at least one lowercase letter
+    if not any(char.islower() for char in password):
+        return False
+
+    # Rule 4: Contains at least one digit
+    if not any(char.isdigit() for char in password):
+        return False
+
+    # Rule 5: Contains at least one special character (e.g., !@#$%^&*)
+    special_characters = "!@#$%^&*()_+[]{}|;:,.<>?/~`"
+    if not any(char in special_characters for char in password):
+        return False
+    
+    # All rules passed
+    return True
+
 # Create your views here.
 def HomeView(request):
     """
