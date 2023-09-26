@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .whole-page{
+            margin: 0px;
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            box-sizing: border-box;
+        }
+        .signup-box{
+            width: 500px;
+            background-color: aliceblue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 10px;
+            font-weight: 600;
+        }
+        .register-button{
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            width: 100px;
+            height: 38px;
+            text-align: center;
+            border-width: 0px;
+            font-weight: 500;
+            border-radius: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+        .error-message{
+            font-weight: 500;
+            color: #000C66;
+        }
+    </style>
+</head>
+<body>
+    <div class="whole-page">
+       <div class="signup-box">
+            <div>
+                <h1>User SignUp</h1>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" value="Register" class="register-button">{% if btval %} Update {%else%} Register {% endif %}</button>
+                <button type="submit" class="register-button"><a href="http://127.0.0.1:8000/app/Home/">{% if btval %} Logout {%else%} HomePage {% endif %}</a></button>
+                <p class="error-message">{{data}}</p>
+            </form>
+       </div>
+    </div>
+</body>
+</html>

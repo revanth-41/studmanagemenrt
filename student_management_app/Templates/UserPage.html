@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .whole-page{
+            margin: 0px;
+            height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            box-sizing: border-box;
+        }
+        h1{
+            text-align: center;
+            color: rgb(44, 46, 46);
+        }
+        a{
+            text-decoration: none;
+        }
+        .top{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .logout-button{
+            background-image: radial-gradient(white,lightblue);
+            width: 150px;
+            height: 38px;
+            text-align: center;
+            border-width: 0px;
+            border-radius: 20px;
+        }
+        h2{
+            text-align: center;
+            color: rgb(44, 46, 46);
+        }
+        .table-style{
+            border-radius: 10px;
+            background-color: aliceblue;
+            width: fit-content;
+            padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        th{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: rgb(52, 167, 206);
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 19px;
+        }
+        th,td{
+            border: 1px solid  rgba(0, 0, 0, 0.2);
+            font-size: 19px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="whole-page">
+        <div class="top">
+            <h2>Hi {{ user.name}}</h2> 
+            <div>
+                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/Home/">Logout</a></button>
+                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/Home/register/{{user.id}}">Update</a></button>
+            </div>
+        </div>
+        <div class="table-style">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Qualification</th>
+                    <th>Address</th>
+                    <th>Username</th>
+                </tr>
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.gender}}</td>
+                    <td>{{user.Qualification}}</td>
+                    <td>{{user.Address}}</td>
+                    <td>{{user.username}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>   
+</body>
+</html>
