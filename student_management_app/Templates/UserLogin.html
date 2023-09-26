@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .page{
+            height: 100vh;
+            padding: 50px;
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+        }
+        .whole-page{
+            height: 70vh;
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            box-sizing: border-box;
+        }
+        .top-home-btn{
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+        }
+        .login-box{
+            background-color: aliceblue;
+            width: 400px;
+            height: 270px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 40px;
+        }
+        h1{
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .label-cls{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: rgb(52, 167, 206);
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 19px;
+        }
+        .field{
+            margin-bottom: 10px;
+        }
+        input{
+            width: 280px;
+            height: 18px;
+            padding: 7px;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: rgba(0, 0, 0, 0.2);;
+        }
+        .login-button{
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            width: 280px;
+            height: 38px;
+            font-weight: 500;
+            text-align: center;
+            border-width: 0px;
+            border-radius: 20px;
+        }
+        .homepage{
+            text-decoration: none;
+        }
+        .error-message{
+            font-weight: 500;
+            color: #ce2525;
+        }
+        .register-button{
+            background-image: radial-gradient(lightblue);
+            width: 100px;
+            height: 38px;
+            text-align: center;
+            border-width: 0px;
+            font-weight: 500;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
+   </head>
+<body>
+    <div class="page">
+        <div class="top-home-btn">
+            <button type="submit" class="register-button"><a href="http://127.0.0.1:8000/app/Home/"  class="homepage">HomePage</a></button>   
+        </div>
+        <div class="whole-page">
+            <div class="login-box">
+                <div>
+                    <h1>User Login</h1>
+                </div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="label-cls">
+                        <label name="email">Email</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="email" placeholder="Email">
+                    </div>
+                    <div class="label-cls">
+                        <label name="password">password</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="password" placeholder="Password">
+                    </div>
+                    <br>
+                    <div>
+                        <button type="submit" class="login-button">Login</button>
+                    </div>
+                    <div>
+                        <p>If not registered? <a href="http://127.0.0.1:8000/app/Home/register/">Click here </a> to Regsiter</p>
+                    </div>
+                </form>
+                <div>
+                    <p class="error-message">{{user}}</p>
+                </div>
+            </div>  
+        </div>
+    </div>
+    
+    
+</body>
+</html>
