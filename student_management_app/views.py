@@ -141,6 +141,47 @@ def AdminLoginView(request):
             return render(request,'AdminLogin.html', context)
     return render(request,'AdminLogin.html')
 
+def Register(request):
+    """
+    Create a User via post request by displaying a Register page.
+
+    This view handles POST requests to create a user. It expects all the required data fields. Upon successful creation of
+    the object, it returns a message-User Registered successfully and it has phoneNumber validation and Password Validation.
+
+    Request:
+        - Method: POST
+
+    Response:
+        - User Registered successfully.
+    
+    If the request data is not valid, it an error message.
+
+    Error Response:
+        -phoneNumber validation-Please enter a 10 digit mobile number
+	-Password Validation-Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit
+    """
+    context = {}
+    context['form'] = UserForm()
+    context['data'] = ''
+    if request.method == 'POST':
+        if not  validate_mobile_number(request.POST.get("phoneNumber")) and not validate_password(request.POST.get("password")):
+            context['data'] = "Please enter a 10-digit mobile number and Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit."
+            return render(request,'Register.html',context)
+        elif not validate_password(request.POST.get("password")):
+            context['data'] = "Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit."
+            return render(request,'Register.html',context)
+        elif not  validate_mobile_number(request.POST.get("phoneNumber")):
+            context['data'] = "Please enter a 10 digit mobile number"
+            return render(request,'Register.html',context)
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context['data']=f"{request.POST.get('name')} registered succefully"
+            return render(request,'Register.html',context)
+        else:
+            print("Invalid Entry")
+    return render(request,'Register.html',context)
+
 def update(request,id):
     """
     Update a user via POST request by displaying a Register page with their existing user details.
