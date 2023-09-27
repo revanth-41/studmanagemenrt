@@ -21,6 +21,45 @@ def HomeView(request):
     """
     return render(request,'HomePage.html')
 
+def validate_mobile_number(value):
+    """
+    Validate that the input is a 10-digit mobile number.
+    """
+    value = str(value)
+    if not value.isdigit() or len(value) != 10:
+        # raise ValidationError("Please enter a 10-digit mobile number.")
+        print("false")
+        return False
+    return True
+        
+def validate_password(password):
+    """
+    Validate the input password.
+    """
+    # Rule 1: Minimum length (e.g., at least 8 characters)
+    if len(password) < 8:
+        return False
+
+    # Rule 2: Contains at least one uppercase letter
+    if not any(char.isupper() for char in password):
+        return False
+
+    # Rule 3: Contains at least one lowercase letter
+    if not any(char.islower() for char in password):
+        return False
+
+    # Rule 4: Contains at least one digit
+    if not any(char.isdigit() for char in password):
+        return False
+
+    # Rule 5: Contains at least one special character (e.g., !@#$%^&*)
+    special_characters = "!@#$%^&*()_+[]{}|;:,.<>?/~`"
+    if not any(char in special_characters for char in password):
+        return False
+    
+    # All rules passed
+    return True
+
 def AdminLoginView(request):
     """
     Display Admin SignIn page.
@@ -160,45 +199,6 @@ def Register(request):
 	-Password Validation-Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit
     """
 
-    def validate_mobile_number(value):
-        """
-        Validate that the input is a 10-digit mobile number.
-        """
-        value = str(value)
-        if not value.isdigit() or len(value) != 10:
-            # raise ValidationError("Please enter a 10-digit mobile number.")
-            print("false")
-            return False
-        return True
-        
-    def validate_password(password):
-        """
-        Validate the input password.
-        """
-        # Rule 1: Minimum length (e.g., at least 8 characters)
-        if len(password) < 8:
-            return False
-
-        # Rule 2: Contains at least one uppercase letter
-        if not any(char.isupper() for char in password):
-            return False
-
-        # Rule 3: Contains at least one lowercase letter
-        if not any(char.islower() for char in password):
-            return False
-
-        # Rule 4: Contains at least one digit
-        if not any(char.isdigit() for char in password):
-            return False
-
-        # Rule 5: Contains at least one special character (e.g., !@#$%^&*)
-        special_characters = "!@#$%^&*()_+[]{}|;:,.<>?/~`"
-        if not any(char in special_characters for char in password):
-            return False
-        
-        # All rules passed
-        return True
-
     context = {}
     context['form'] = UserForm()
     context['image'] = UpdateProfilePicForm()
@@ -254,6 +254,15 @@ def update(request,id):
     context['data'] = ''
     context['btval'] = 'Update'
     if request.method == 'POST':
+        if not  validate_mobile_number(request.POST.get("phoneNumber")) and not validate_password(request.POST.get("password")):
+            context['data'] = "Please enter a 10-digit mobile number and Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit."
+            return render(request,'Register.html',context)
+        elif not validate_password(request.POST.get("password")):
+            context['data'] = "Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit."
+            return render(request,'Register.html',context)
+        elif not  validate_mobile_number(request.POST.get("phoneNumber")):
+            context['data'] = "Please enter a 10 digit mobile number"
+            return render(request,'Register.html',context)
         form = UserForm(request.POST,instance=user)
         if form.is_valid():
             form.save()
