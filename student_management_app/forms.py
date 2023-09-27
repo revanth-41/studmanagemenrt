@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,BlogPost,UserProfile
 # from matplotlib import widgets
 
 from django.core.exceptions import ValidationError
@@ -58,3 +58,14 @@ class UserForm(forms.ModelForm):
                 }), 
             
                 }
+
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title','content']
+
+class UpdateProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image']
