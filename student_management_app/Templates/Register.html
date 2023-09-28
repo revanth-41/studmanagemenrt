@@ -53,10 +53,9 @@
             <div>
                 <h1>User SignUp</h1>
             </div>
-            <form enctype="multipart/form-data" action="" method="post">
+            <form  enctype="multipart/form-data" action="" method="post">
                 {% csrf_token %}
                 {{form.as_p}}
-                {{image.as_p}}
                 <button type="submit" value="Register" class="register-button">{% if btval %} Update {%else%} Register {% endif %}</button>
                 <button type="submit" class="register-button"><a href="http://127.0.0.1:8000/app/Home/">{% if btval %} Logout {%else%} HomePage {% endif %}</a></button>
                 <p class="error-message">{{data}}</p>

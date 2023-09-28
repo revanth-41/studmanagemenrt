@@ -1,5 +1,5 @@
 from django import forms
-from .models import User,BlogPost,UserProfile
+from .models import User,BlogPost
 # from matplotlib import widgets
 
 from django.core.exceptions import ValidationError
@@ -67,8 +67,21 @@ class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['title','content']
+        widgets = {
+            'title': TextInput(attrs={
+                'class': "form-control",
+                'style': 'width: 400px;height: 18px;padding: 7px;border-radius: 10px;border-width: 1px;border-color: rgba(0, 0, 0, 0.2);font-family: Georgia;font-weight:bold;',
+                'placeholder': 'Title'
+                }),
+            'content':  Textarea(attrs={
+                'rows' : 10,
+                'cols' : 50,
+                'style': 'width: 400px;padding: 7px;border-radius: 10px;border-width: 1px;border-color: rgba(0, 0, 0, 0.2);font-family: Georgia;font-weight:bold;',
+                'placeholder': 'Enter Blog'
+                }), 
+            } 
 
 class UpdateProfilePicForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
-        fields = ['image']
+        model = User
+        fields = ['image']        

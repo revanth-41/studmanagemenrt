@@ -1,25 +1,57 @@
 from django.shortcuts import render,redirect
-from .models import User,BlogPost,UserProfile
+from .models import User,BlogPost,Access
 from .forms import UserForm,BlogPostForm,UpdateProfilePicForm
+
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User as Admin
 
+def allUsersDetails(request):
+    all_users = User.objects.all()
+    context = {
+        'users': all_users 
+    }
+    return render(request,"summaryPage.html",context)
 
-# Create your views here.
-def HomeView(request):
-    """
-    Display Home Page.
-	It then renders a Homepage.html template to display
-    the Buttons.
+def UserDetails(request,id):
+    user = User.objects.get(id=id)
+    # img = UserProfile.objects.filter(user=user).first()
+    blogOfUser = BlogPost.objects.filter(author_id = user)
+    context = {
+        'user' : user,
+        'blog' : BlogPostForm(),
+        'blogs' : blogOfUser,
+        # 'image' : img
+    }
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        post = BlogPost(title=title, content=content, author=user)
+        post.save()
+        
+    return render(request,"UserPage.html",context)
 
-    Returns:
-	It display the 3 Buttons
-		-Admin SignIn
-		-user SignIn
-		-SignUp
-		
-    """
-    return render(request,'HomePage.html')
+def UpdateProfilePic(request,id):
+    context = {
+        'form': UpdateProfilePicForm(),
+        # 'user' : user
+    }
+    user = User.objects.get(id=id)
+    if request.method == 'POST':
+        form = UpdateProfilePicForm(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/app/home/details/{0}'.format(user.id))
+    return render(request,'updatepic.html',context)
+
+
+def adminUserDetails(request,id):
+    user = User.objects.get(id=id)
+    blogOfUser = BlogPost.objects.filter(author_id = user)
+    context = {
+        'blogs':blogOfUser, 
+        'user' : user
+    }
+    return render(request,"AdminAccesUser.html",context)
 
 def validate_mobile_number(value):
     """
@@ -28,10 +60,9 @@ def validate_mobile_number(value):
     value = str(value)
     if not value.isdigit() or len(value) != 10:
         # raise ValidationError("Please enter a 10-digit mobile number.")
-        print("false")
         return False
     return True
-        
+
 def validate_password(password):
     """
     Validate the input password.
@@ -60,6 +91,65 @@ def validate_password(password):
     # All rules passed
     return True
 
+# Create your views here.
+def HomeView(request):
+    """
+    Display Home Page.
+	It then renders a Homepage.html template to display
+    the Buttons.
+
+    Returns:
+	It display the 3 Buttons
+		-Admin SignIn
+		-user SignIn
+		-SignUp
+		
+    """
+    return render(request,'HomePage.html')
+
+# Create your views here.
+def UserLoginView(request):
+    """
+    Display user SignIn page.
+
+    This view takes User-Email,password as a parameter and it will check from the database 
+    based on that parameters,whether the user is available or not
+    It then renders a UserLogin.html template to display the input fields-Email,password.
+    If User is available then it renders a UserPage.html template to display their details.
+    Then it has a Logout button which renders to Homepage.
+
+    Parameters:
+        - Email
+	- Password
+
+    Returns:
+        - First it display the User login page with 2 input fields-Email,password.
+	- Then it display User page which shows the details of user
+    """
+    context = {}
+    context["user"] = ''
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        try:
+            user_obj = User.objects.get(email=email)
+            if password == user_obj.password:
+                context['user'] = user_obj
+                access_obj = Access.objects.get(user_id_id=user_obj.id)
+                if access_obj.access == True:
+                    return redirect('/app/home/details/{0}'.format(user_obj.id))
+                else:
+                    context['user'] = "Access Permission Denied"
+                    return render(request,'UserLogin.html', context)
+                # return render(request, "UserPage.html",context)
+            else:
+                context["user"] = "Incorrect password.."
+                return render(request,'UserLogin.html', context)
+        except:
+            context["user"] = "User not found.."
+            return render(request,'UserLogin.html', context)
+    return render(request,'UserLogin.html',context)
+
 def AdminLoginView(request):
     """
     Display Admin SignIn page.
@@ -84,13 +174,12 @@ def AdminLoginView(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         t = User.objects.all()
-        # b = BlogPost.objects.get(t)
         try:
             a1 = Admin.objects.get(email=email)
             if check_password(password,a1.password):
                 context['users'] = t
-                
-                return render(request, "summaryPage.html",context)
+                return redirect('/app/home/details/')
+                #return render(request, "summaryPage.html",context)
             else:
                 context["users"] = "Incorrect password.."
                 return render(request,'AdminLogin.html', context)
@@ -98,86 +187,6 @@ def AdminLoginView(request):
             context["users"] = "Admin not found.."
             return render(request,'AdminLogin.html', context)
     return render(request,'AdminLogin.html')
-
-
-def UserDetails(request,id):
-    user = User.objects.get(id=id)
-    img = UserProfile.objects.filter(user=user).first()
-    blogOfUser = BlogPost.objects.filter(author_id = user)
-    context = {
-        'user' : user,
-        'blog' : BlogPostForm(),
-        'blogs' : blogOfUser,
-        'image' : img
-    }
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        post = BlogPost(title=title, content=content, author=user)
-        post.save()
-        
-    return render(request,"UserPage.html",context)
-
-
-def UpdateProfilePic(request,id):
-    context = {
-        'form': UpdateProfilePicForm(),
-        # 'user' : user
-    }
-    if request.method == 'POST':
-        user = UserProfile.objects.filter(user=id)
-        form = UpdateProfilePicForm(request.POST,request.FILES,instance = user) 
-        context = {
-            'form' : form
-        }
-        form = UpdateProfilePicForm(request.POST,request.FILES,instance = user)
-        if request.method == 'POST':
-            image = request.POST.get('image')
-            profile_obj = UserProfile(user=user,image=image)
-            profile_obj.save()
-    
-        # if form.is_valid():
-        #     form.save()
-            return redirect('/app/home/details/{0}'.format(user.id))
-    return render(request,'updatepic.html',context)
-
-def UserLoginView(request):
-    """
-    Display user SignIn page.
-
-    This view takes User-Email,password as a parameter and it will check from the database 
-    based on that parameters,whether the user is available or not
-    It then renders a UserLogin.html template to display the input fields-Email,password.
-    If User is available then it renders a UserPage.html template to display their details.
-    Then it has a Logout button which renders to Homepage.
-   
-
-    Parameters:
-        - Email
-	- Password
-
-    Returns:
-        - First it display the User login page with 2 input fields-Email,password.
-	- Then it display User page which shows the details of user
-    """
-    context = {}
-    context["user"] = ''
-    if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        try:
-            t = User.objects.get(email=email)
-            if password == t.password:
-                context['user'] = t
-                return redirect('/app/home/details/{0}'.format(t.id))
-                # return render(request, "UserPage.html",context)
-            else:
-                context["user"] = "Incorrect password.."
-                return render(request,'UserLogin.html', context)
-        except:
-            context["user"] = "User not found.."
-            return render(request,'UserLogin.html', context)
-    return render(request,'UserLogin.html',context)
 
 def Register(request):
     """
@@ -198,10 +207,8 @@ def Register(request):
         -phoneNumber validation-Please enter a 10 digit mobile number
 	-Password Validation-Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit
     """
-
     context = {}
     context['form'] = UserForm()
-    context['image'] = UpdateProfilePicForm()
     context['data'] = ''
     if request.method == 'POST':
         if not  validate_mobile_number(request.POST.get("phoneNumber")) and not validate_password(request.POST.get("password")):
@@ -213,19 +220,12 @@ def Register(request):
         elif not  validate_mobile_number(request.POST.get("phoneNumber")):
             context['data'] = "Please enter a 10 digit mobile number"
             return render(request,'Register.html',context)
-        form = UserForm(request.POST)
-        
-        # print(1)
+        form = UserForm(request.POST,request.FILES)
         if form.is_valid():
-            # print(2)
-            user = form.save()
-            print(user)
-            imgForm = UpdateProfilePicForm(request.POST,request.FILES)
-            if imgForm.is_valid():
-                img = imgForm.cleaned_data['image']
-                image_obj = UserProfile(user=user,image=img)
-                image_obj.save()
-                context['data']=f"{request.POST.get('name')} registered succefully"
+            form.save()
+            user_access_obj = Access(user_id=User.objects.get(email=request.POST.get("email")),access=True)
+            user_access_obj.save()
+            context['data']=f"{request.POST.get('name')} registered succefully"
             return render(request,'Register.html',context)
         else:
             print("Invalid Entry")
@@ -272,5 +272,4 @@ def update(request,id):
         else:
             print("Invalid Entry")
     return render(request,'Register.html',context)
-
 

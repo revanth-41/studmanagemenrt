@@ -5,26 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body{
+            min-height: 100vh;
+        }
          .whole-page{
             margin: 0px;
-            height: 100vh;
             padding: 20px;
             background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            min-height: 100vh;
             font-family: Georgia, 'Times New Roman', Times, serif;
             box-sizing: border-box;
         }
-        h1{
-            text-align: center;
-            color: rgb(44, 46, 46);
-        }
         a{
             text-decoration: none;
+            color: black;
         }
-        .top{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
+       
         .logout-button{
             background-image: radial-gradient(white,lightblue);
             width: 150px;
@@ -34,60 +30,178 @@
             border-radius: 20px;
         }
         h2{
-            text-align: center;
-            color: rgb(44, 46, 46);
+            color: black;
+            margin-left: 10px;
+            font-size: 25px;
         }
         .table-style{
+            top: 70px;
             border-radius: 10px;
             background-color: aliceblue;
-            width: fit-content;
-            padding: 20px;
+            height: fit-content;
+            padding: 35px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-bottom: 20px;
         }
-        th{
+        td{
+            /* border: 1px solid  rgba(0, 0, 0, 0.2); */
+            font-size: 19px;
+            padding: 8px;
+        }
+        
+        .colms{
             font-family: Georgia, 'Times New Roman', Times, serif;
             color: rgb(52, 167, 206);
             font-weight: bold;
-            margin-bottom: 6px;
+            font-size: 19px;
+            width: fit-content;
+        }
+        
+        .result{
+            font-weight: bold;
             font-size: 19px;
         }
-        th,td{
-            border: 1px solid  rgba(0, 0, 0, 0.2);
-            font-size: 19px;
+        th{
+            text-align: left;
             padding: 8px;
+            text-decoration: underline;  
+        }
+        #userheading{
+            font-size: 27px;
+            color: rgb(230, 171, 45);
+        }
+        
+        .blog-container{
+            width: 50%;
+            margin-top: 30px;
+            background-color: white;
+            margin-bottom: 50px;
+            padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .profile-img{
+            width: 200px;
+            height: 200px;
+            border-radius: 150px;        
+        }
+        .page-container{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .blog-form{
+            font-weight: bold;
+        }
+        .save-btn{
+            background-color: rgb(230, 171, 45);
+            width: 150px;
+            height: 38px;
+            text-align: center;
+            border-width: 0px;
+            border-radius: 20px;
+            margin-right: 22px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .left-container{
+            display: flex;
+            width: 35%;
+            flex-direction: column;
+            position: fixed;
+        }
+        .blog-td{
+            border-bottom: 1px solid black;
+            text-align: justify;
+        }
+        .blog-table-th{
+            text-decoration: none;
+            color: rgb(250, 173, 6);
+            font-weight: bolder;
+            font-size: 20px;
+        }
+        .get-detail{
+            width: 76px;
+            height: 40px;
+        }
+        .right-container{
+            width: 100%;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: flex-end;
         }
     </style>
 </head>
 <body>
     <div class="whole-page">
-        <div class="top">
-            <h2>Hi {{ user.name}}</h2> 
-            <div>
-                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/home/details/">Back</a></button>
+        
+        <div class="page-container">
+            <div class="left-container">
+                <div class="top">
+                    <h2>Hi {{ user.name}}</h2> 
+                </div>
+                <table class="table-style">
+                    <tr>
+                        <th class="colms" id="userheading" colspan="2">{{user.name}} Details</th>
+                    </tr>
+                    <tr>
+                        <td class="colms">ID</td>
+                        <td class="result">{{user.id}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Name</td>
+                        <td class="result">{{user.name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Email</td>
+                        <td class="result">{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Gender</td>
+                        <td class="result">{{user.gender}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Qualification</td>
+                        <td class="result">{{user.Qualification}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Address</td>
+                        <td class="result">{{user.Address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="colms">Username</td>
+                        <td class="result">{{user.username}}</td>
+                    </tr>
+                </table>
+                <div class="btns">
+                    <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/home/details/">Back</a></button>
+                </div>
             </div>
+            <div class="right-container">
+                <div class="image-container">
+                    <img src="{{ user.image.url }}" class="profile-img"><br>
+                </div>
+                <div class="blog-container">
+                    <table>
+                        <tr>
+                            <th class="blog-table-th">Title</th>
+                            <th class="blog-table-th">Content</th>
+                        </tr>
+                        {%for blog in blogs%}
+                        <tr>
+                            <td class="blog-td">{{blog.title}}</td>
+                            <td class="blog-td">{{blog.content}}</td>
+                        </tr>
+                        {%endfor%}
+                    </table> 
+                </div>
         </div>
-        <div class="table-style">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Qualification</th>
-                    <th>Address</th>
-                    <th>Username</th>
-                </tr>
-                <tr>
-                    <td>{{user.id}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.gender}}</td>
-                    <td>{{user.Qualification}}</td>
-                    <td>{{user.Address}}</td>
-                    <td>{{user.username}}</td>
-                </tr>
-            </table>
-        </div>
+        
     </div>   
 </body>
 </html>
