@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import User,BlogPost
+from .models import User,BlogPost,Access
 from .forms import UserForm,BlogPostForm,UpdateProfilePicForm
 
 from django.contrib.auth.hashers import check_password
@@ -46,7 +46,9 @@ def UpdateProfilePic(request,id):
 
 def adminUserDetails(request,id):
     user = User.objects.get(id=id)
+    blogOfUser = BlogPost.objects.filter(author_id = user)
     context = {
+        'blogs':blogOfUser, 
         'user' : user
     }
     return render(request,"AdminAccesUser.html",context)
@@ -133,7 +135,12 @@ def UserLoginView(request):
             user_obj = User.objects.get(email=email)
             if password == user_obj.password:
                 context['user'] = user_obj
-                return redirect('/app/home/details/{0}'.format(user_obj.id))
+                access_obj = Access.objects.get(user_id_id=user_obj.id)
+                if access_obj == True:
+                    return redirect('/app/home/details/{0}'.format(user_obj.id))
+                else:
+                    context['user'] = "Access Permission Denied"
+                    return render(request,'UserLogin.html', context)
                 # return render(request, "UserPage.html",context)
             else:
                 context["user"] = "Incorrect password.."
@@ -216,6 +223,8 @@ def Register(request):
         form = UserForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            user_access_obj = Access(user_id=User.objects.get(email=request.POST.get("email")),access=True)
+            user_access_obj.save()
             context['data']=f"{request.POST.get('name')} registered succefully"
             return render(request,'Register.html',context)
         else:

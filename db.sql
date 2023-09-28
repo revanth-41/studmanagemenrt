@@ -8,3 +8,6 @@
 -- DELETE FROM management_app_userprofile;
 
 DELETE FROM student_management_app_user;
+
+INSERT INTO student_management_app_access(user_id_id,access)
+VALUES(5,1),(6,1);
