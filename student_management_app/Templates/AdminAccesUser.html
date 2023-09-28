@@ -135,6 +135,9 @@
             justify-content: end;
             align-items: flex-end;
         }
+        h3{
+            color: rgb(250, 173, 6);
+        }
     </style>
 </head>
 <body>
@@ -187,18 +190,26 @@
                     <img src="{{ user.image.url }}" class="profile-img"><br>
                 </div>
                 <div class="blog-container">
+                    {% if not blogs %}
+                    <h3>No Blogs to display</h3>
+                    {% else  %}
                     <table>
                         <tr>
                             <th class="blog-table-th">Title</th>
                             <th class="blog-table-th">Content</th>
+                            <th class="blog-table-th"></th>
                         </tr>
                         {%for blog in blogs%}
                         <tr>
                             <td class="blog-td">{{blog.title}}</td>
                             <td class="blog-td">{{blog.content}}</td>
+                            <td class="blog-td"><button class="logout-button get-detail" onclick="displayAccess()">
+                                <a href="#">{% if is_enabled %} Hide {% else %} Show {% endif %} </a>
+                            </button></td>
                         </tr>
                         {%endfor%}
                     </table> 
+                    {% endif %}
                 </div>
         </div>
         

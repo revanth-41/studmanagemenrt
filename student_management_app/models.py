@@ -10,7 +10,7 @@ class User(models.Model):
     Address = models.TextField(max_length=120)
     username = models.CharField(max_length=30,unique=True)
     password=models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images',default="c:/Users/ssadula/Pictures/p1.png")
+    image = models.ImageField(upload_to='images',default="C:/Users/ssadula/Pictures/StudentManagamentProject/media/images/p1.png")
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)

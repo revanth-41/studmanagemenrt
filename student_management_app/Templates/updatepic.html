@@ -4,13 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            height: 100vh;
+            margin: 0px;
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .img-container{
+            background-color: aliceblue;
+            width: 50%;
+            height: fit-content;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 22px;
+            padding: 50px;
+        }
+        h1{
+            margin-top: 0px;
+            color: rgb(52, 167, 206);
+            font-size: 25px;
+        }
+        .register-button{
+            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
+            width: 100px;
+            height: 38px;
+            text-align: center;
+            border-width: 0px;
+            font-weight: 500;
+            border-radius: 10px;
+        }
+        .profile-img{
+            width: 200px;
+            height: 200px;
+            border-radius: 150px;        
+        }
+    </style>
 </head>
 <body>
-    <form enctype="multipart/form-data" method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit" class="login-button">submit
-        </button>
-    </form>
+    <div class="img-container">
+        <h1>Edit Image : {{user.name}}</h1>
+        <img src="{{ user.image.url }}" class="profile-img">
+        <form enctype="multipart/form-data" method="post">
+            {%csrf_token%}
+            {{form.as_p}}
+            <button type="submit" class="register-button">submit
+            </button>
+        </form>
+    </div>
 </body>
 </html>

@@ -36,6 +36,7 @@ def UpdateProfilePic(request,id):
         # 'user' : user
     }
     user = User.objects.get(id=id)
+    context['user']=user
     if request.method == 'POST':
         form = UpdateProfilePicForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
@@ -52,6 +53,8 @@ def adminUserDetails(request,id):
         'user' : user
     }
     return render(request,"AdminAccesUser.html",context)
+
+
 
 def validate_mobile_number(value):
     """
@@ -223,6 +226,8 @@ def Register(request):
         form = UserForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            user = User.objects.get(email=request.POST.get("email"))
+            context['user'] = user
             user_access_obj = Access(user_id=User.objects.get(email=request.POST.get("email")),access=True)
             user_access_obj.save()
             context['data']=f"{request.POST.get('name')} registered succefully"
