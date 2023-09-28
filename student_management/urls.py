@@ -23,3 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/',include('student_management_app.urls'))
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 55b75175ff5f87e1d8ecc50005e73554c66ea00d
