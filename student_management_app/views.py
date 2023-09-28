@@ -83,7 +83,7 @@ def AdminLoginView(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
-        t = User.objects.get(email=email,password=password)
+        t = User.objects.all()
         # b = BlogPost.objects.get(t)
         try:
             a1 = Admin.objects.get(email=email)
@@ -166,7 +166,7 @@ def UserLoginView(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         try:
-            t = User.objects.get(email=email,password=password)
+            t = User.objects.get(email=email)
             if password == t.password:
                 context['user'] = t
                 return redirect('/app/home/details/{0}'.format(t.id))
