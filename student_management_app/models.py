@@ -11,7 +11,6 @@ class User(models.Model):
     username = models.CharField(max_length=30,unique=True)
     password=models.CharField(max_length=100)
 
-
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()

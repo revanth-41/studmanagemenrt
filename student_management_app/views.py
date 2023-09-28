@@ -263,11 +263,12 @@ def update(request,id):
         elif not  validate_mobile_number(request.POST.get("phoneNumber")):
             context['data'] = "Please enter a 10 digit mobile number"
             return render(request,'Register.html',context)
-        form = UserForm(request.POST,instance=user)
+        form = UserForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
             form.save()
             context['data']=f"details updated successfully"
-            return render(request,'Register.html',context)
+            return redirect('/app/home/details/{0}'.format(user.id))
+            #return render(request,'Register.html',context)
         else:
             print("Invalid Entry")
     return render(request,'Register.html',context)

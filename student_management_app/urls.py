@@ -12,3 +12,4 @@ urlpatterns = [
     path('home/details/<int:id>/editprofilepic/',views.UpdateProfilePic),
 
 ]
+

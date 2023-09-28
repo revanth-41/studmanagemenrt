@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 ('Address', models.TextField(max_length=120)),
                 ('username', models.CharField(max_length=30, unique=True)),
                 ('password', models.CharField(max_length=100)),
+                # ('image',models.ImageField(upload_to='images')),
             ],
         ),
     ]
