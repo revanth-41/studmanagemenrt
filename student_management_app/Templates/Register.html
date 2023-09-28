@@ -58,6 +58,7 @@
                 {{form.as_p}}
                 <button type="submit" value="Register" class="register-button">{% if btval %} Update {%else%} Register {% endif %}</button>
                 <button type="submit" class="register-button"><a href="http://127.0.0.1:8000/app/Home/">{% if btval %} Logout {%else%} HomePage {% endif %}</a></button>
+                <button type="submit" value="Login" class="register-button"><a href="http://127.0.0.1:8000/app/home/details/{{user.id}}/">Login</a></button>
                 <p class="error-message">{{data}}</p>
             </form>
        </div>

@@ -260,6 +260,9 @@
             justify-content: end;
             align-items: flex-end;
         }
+        h3{
+            color: rgb(250, 173, 6);
+        }
     </style>
     
 </head>
@@ -311,6 +314,7 @@
             </div>
             <div class="right-container">
                 <div>
+                    <!-- {% if user.image.url == } -->
                     <img src="{{ user.image.url }}" class="profile-img"><br>
                     <button type="submit" class="save-btn"><a href="editprofilepic/">Edit</a></button>
                 </div>
@@ -324,6 +328,9 @@
                     </form>
                 </div>
                 <div class="blog-container">
+                    {% if not blogs %}
+                    <h3>No Blogs to display</h3>
+                    {% else  %}
                     <table>
                         <tr>
                             <th class="blog-table-th">Title</th>
@@ -340,6 +347,7 @@
                         </tr>
                         {%endfor%}
                     </table> 
+                    {% endif %}
                 </div>
         </div>
         
