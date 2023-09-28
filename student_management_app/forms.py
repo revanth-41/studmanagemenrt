@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,BlogPost
 # from matplotlib import widgets
 
 from django.core.exceptions import ValidationError
@@ -56,10 +56,19 @@ class UserForm(forms.ModelForm):
                 'style': 'width: 280px;height: 18px;padding: 7px;border-radius: 10px;border-width: 1px;border-color: rgba(0, 0, 0, 0.2);',
                 'placeholder': 'User Name'
                 }), 
-            'password' : TextInput(attrs={
-                'class': "form-control", 
+            'password': TextInput(attrs={
+                'class': "form-control",
                 'style': 'width: 280px;height: 18px;padding: 7px;border-radius: 10px;border-width: 1px;border-color: rgba(0, 0, 0, 0.2);',
                 'placeholder': 'Password'
                 }),
-            
                 }
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title','content']
+
+class UpdateProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['image']        

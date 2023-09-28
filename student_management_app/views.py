@@ -1,16 +1,55 @@
 from django.shortcuts import render,redirect
-from .models import User
-from .forms import UserForm
+from .models import User,BlogPost
+from .forms import UserForm,BlogPostForm,UpdateProfilePicForm
 
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User as Admin
 
+def allUsersDetails(request):
+    all_users = User.objects.all()
+    context = {
+        'users': all_users 
+    }
+    return render(request,"summaryPage.html",context)
+
 def UserDetails(request,id):
+    user = User.objects.get(id=id)
+    # img = UserProfile.objects.filter(user=user).first()
+    blogOfUser = BlogPost.objects.filter(author_id = user)
+    context = {
+        'user' : user,
+        'blog' : BlogPostForm(),
+        'blogs' : blogOfUser,
+        # 'image' : img
+    }
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        post = BlogPost(title=title, content=content, author=user)
+        post.save()
+        
+    return render(request,"UserPage.html",context)
+
+def UpdateProfilePic(request,id):
+    context = {
+        'form': UpdateProfilePicForm(),
+        # 'user' : user
+    }
+    user = User.objects.get(id=id)
+    if request.method == 'POST':
+        form = UpdateProfilePicForm(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/app/home/details/{0}'.format(user.id))
+    return render(request,'updatepic.html',context)
+
+
+def adminUserDetails(request,id):
     user = User.objects.get(id=id)
     context = {
         'user' : user
     }
-    return render(request,"UserPage.html",context)
+    return render(request,"AdminAccesUser.html",context)
 
 def validate_mobile_number(value):
     """
@@ -132,7 +171,8 @@ def AdminLoginView(request):
             a1 = Admin.objects.get(email=email)
             if check_password(password,a1.password):
                 context['users'] = t
-                return render(request, "summaryPage.html",context)
+                return redirect('/app/home/details/')
+                #return render(request, "summaryPage.html",context)
             else:
                 context["users"] = "Incorrect password.."
                 return render(request,'AdminLogin.html', context)
@@ -173,7 +213,7 @@ def Register(request):
         elif not  validate_mobile_number(request.POST.get("phoneNumber")):
             context['data'] = "Please enter a 10 digit mobile number"
             return render(request,'Register.html',context)
-        form = UserForm(request.POST)
+        form = UserForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             context['data']=f"{request.POST.get('name')} registered succefully"
@@ -214,11 +254,12 @@ def update(request,id):
         elif not  validate_mobile_number(request.POST.get("phoneNumber")):
             context['data'] = "Please enter a 10 digit mobile number"
             return render(request,'Register.html',context)
-        form = UserForm(request.POST,instance=user)
+        form = UserForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
             form.save()
             context['data']=f"details updated successfully"
-            return render(request,'Register.html',context)
+            return redirect('/app/home/details/{0}'.format(user.id))
+            #return render(request,'Register.html',context)
         else:
             print("Invalid Entry")
     return render(request,'Register.html',context)

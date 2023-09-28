@@ -74,6 +74,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Details</th>
+                    <th>Access</th>
                     <!-- <th>Gender</th>
                     <th>Qualification</th>
                     <th>Address</th>
@@ -82,18 +83,28 @@
                 </tr>
                 {% for user in users %}
                 <tr>
-                    <td>{{user.id}}</td>
+                    <td id{{user.id}}=>{{user.id}}</td>
                     <td>{{user.name}}</td>
                     <!-- <td>{{user.email}}</td>
                     <td>{{user.gender}}</td>
                     <td>{{user.Qualification}}</td>
                     <td>{{user.Address}}</td>
                     <td>{{user.username}}</td> -->
-                    <td><button class="logout-button get-detail"><a href="home/details/{{user.id}}/">Get Details</a></button></td>
+                    <td><button class="logout-button get-detail"><a href="user/{{user.id}}/">Get Details</a></button></td>
+                    <td><button class="logout-button get-detail" onclick="displayAccess()"><a href="#">{% if is_enabled %} Disable {% else %} Enable {% endif %} </a></button></td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
+    <script>
+        // var user_name = "Soumya"
+        var user_name =' {{ user.name }} '
+        // document.getElementById("demo").addEventListener("accessbtn", myFunction);
+        function displayAccess(){
+            alert(user_name+ " Enabled/Disabled")
+            document.getElementById(' {{user.id}} ').innerHTML = '{{ user.id }}'
+        }
+    </script>
 </body>
 </html>

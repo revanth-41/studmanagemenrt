@@ -8,5 +8,9 @@ urlpatterns = [
     path('Home/user/',views.UserLoginView),
     path('Home/register/<int:id>/',views.update),
     path('home/details/<int:id>/',views.UserDetails),
-    path('Home/admin/home/details/<int:id>/',views.UserDetails)
+    path('Home/admin/home/details/<int:id>/',views.UserDetails),
+    path('home/details/user/<int:id>/',views.adminUserDetails),
+    path('home/details/',views.allUsersDetails),
+    path('home/details/<int:id>/editprofilepic/',views.UpdateProfilePic),
 ]
+
