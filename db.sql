@@ -1,0 +1,10 @@
+-- insert into management_app_admin(email,password)
+-- values('rev@gmail.com','revi@1234');
+
+
+-- use db.sqlite;
+
+-- DELETE FROM management_app_blogpost;
+-- DELETE FROM management_app_userprofile;
+
+DELETE FROM student_management_app_user;

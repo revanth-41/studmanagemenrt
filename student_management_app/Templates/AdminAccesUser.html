@@ -63,8 +63,7 @@
         <div class="top">
             <h2>Hi {{ user.name}}</h2> 
             <div>
-                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/Home/">Logout</a></button>
-                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/Home/register/{{user.id}}">Update</a></button>      
+                <button type="submit" class="logout-button"><a href="http://127.0.0.1:8000/app/home/details/">Back</a></button>
             </div>
         </div>
         <div class="table-style">
@@ -87,30 +86,6 @@
                     <td>{{user.Address}}</td>
                     <td>{{user.username}}</td>
                 </tr>
-
-                <div>
-                    <img src="{{ user.image.url }}" style="height: 50px;width: 50px;">
-                    <button type="submit" class="login-button"><a href="editprofilepic/">Edit</a></button>
-                </div>
-                
-                <div>
-
-                    <form action="" method="post">
-                        {% csrf_token%}
-                        {{blog.as_p}}
-                        <div>
-                            <button type="submit" class="login-button">Save</button>
-                        </div>
-                    </form>
-                <div>
-                <div>
-                    {%for blog in blogs%}
-                    title : {{blog.title}}
-                    <br>
-                    content : {{blog.content}}
-                    <br>    
-                    {%endfor%}
-                </div>
             </table>
         </div>
     </div>   
