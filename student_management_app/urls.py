@@ -12,5 +12,7 @@ urlpatterns = [
     path('home/details/user/<int:id>/',views.adminUserDetails),
     path('home/details/',views.allUsersDetails),
     path('home/details/<int:id>/editprofilepic/',views.UpdateProfilePic),
+    path('home/details/access/<int:id>/',views.AccessEnableorDisable),
+    path('home/details/<int:user_id>/blogstatus/<int:blog_id>/',views.ShoworHideBlog)
 ]
 

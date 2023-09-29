@@ -8,8 +8,10 @@ from django.contrib.auth.models import User as Admin
 def allUsersDetails(request):
     all_users = User.objects.all()
     context = {
-        'users': all_users 
+        'users': all_users, 
+        'accessors' : Access.objects.all().order_by('user_id')
     }
+    # print(context['accessors'].objects.get(user_id=1).access)
     return render(request,"summaryPage.html",context)
 
 def UserDetails(request,id):
@@ -54,7 +56,37 @@ def adminUserDetails(request,id):
     }
     return render(request,"AdminAccesUser.html",context)
 
+def AccessEnableorDisable(request,id):
+    # all_users = User.objects.all()
+    # context = {
+    #     'users': all_users, 
+    #     'accessors' : Access.objects.all().order_by('user_id'),
+    #     'user' : User.objects.get(id=id)
+    # }
+    user1 = User.objects.get(id=id)
+    access_obj = Access.objects.get(user_id=user1)
+    # print(access_obj)
+    is_enabled=access_obj.access
+    if is_enabled==True:
+        access_obj.access = False
+        access_obj.save()
+    else:
+        access_obj.access = True
+        access_obj.save() 
+    # user = context['user']    
+    return redirect('/app/home/details/')     
 
+def ShoworHideBlog(request,user_id,blog_id):
+    user = User.objects.get(id=user_id)
+    my_blog_id = BlogPost.objects.get(id=blog_id)
+    is_enabled=my_blog_id.status
+    if is_enabled==True:
+        my_blog_id.status = False
+        my_blog_id.save()
+    else:
+        my_blog_id.status = True
+        my_blog_id.save() 
+    return redirect('/app/home/details/{0}'.format(user.id))
 
 def validate_mobile_number(value):
     """

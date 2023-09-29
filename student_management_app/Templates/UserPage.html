@@ -341,16 +341,27 @@
                         <tr>
                             <td class="blog-td">{{blog.title}}</td>
                             <td class="blog-td">{{blog.content}}</td>
-                            <td class="blog-td"><button class="logout-button get-detail" onclick="displayAccess()">
-                                <a href="#">{% if is_enabled %} Hide {% else %} Show {% endif %} </a>
+                            <td class="blog-td">
+                                <button class="logout-button get-detail" onclick="displayShoworHide('{{blog.status}}','{{blog.title}}')">
+                                <a href="blogstatus/{{blog.id}}/">{% if blog.status == 1 %} Hide {% else %} Show {% endif %} </a>
                             </button></td>
                         </tr>
                         {%endfor%}
                     </table> 
                     {% endif %}
                 </div>
-        </div>
-        
-    </div>   
+        </div>    
+    </div>
+    <script>
+        function displayShoworHide(is_enable,blog_title){
+            if(is_enable=="True"){
+                val = "Hidden"
+            }
+            else{
+                val = "Shown"
+            }
+            alert(" Blog "+  blog_title + " " + val + " for Admin")
+        }
+    </script>   
 </body>
 </html>
