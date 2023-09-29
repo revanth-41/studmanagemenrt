@@ -6,7 +6,7 @@
     <title>Document</title>
     <style>
         .whole-page{
-            height: 100vh;
+            min-height: 100vh;
             margin: 0px;
             background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
             font-family: Georgia, 'Times New Roman', Times, serif;
@@ -81,29 +81,27 @@
                     <th>Username</th>
                     <th>Get Details</th> -->
                 </tr>
-                {% for user in users %}
+                {% for user in accessors %}
                 <tr>
-                    <td id{{user.id}}=>{{user.id}}</td>
-                    <td>{{user.name}}</td>
-                    <!-- <td>{{user.email}}</td>
-                    <td>{{user.gender}}</td>
-                    <td>{{user.Qualification}}</td>
-                    <td>{{user.Address}}</td>
-                    <td>{{user.username}}</td> -->
-                    <td><button class="logout-button get-detail"><a href="user/{{user.id}}/">Get Details</a></button></td>
-                    <td><button class="logout-button get-detail" onclick="displayAccess()"><a href="#">{% if is_enabled %} Disable {% else %} Enable {% endif %} </a></button></td>
+                    <td>{{user.user_id.id}}</td>
+                    <td>{{user.user_id.name}}</td>
+                    <td><button class="logout-button get-detail"><a href="user/{{user.user_id.id}}/">Get Details</a></button></td>
+                    
+                    <td><button class="logout-button get-detail" onclick="displayEnableorDisable('{{user.user_id.name}}','{{user.access}}')"><a href="access/{{user.user_id.id}}/">{% if user.access == 1 %} Disable {% else %} Enable {% endif %}</a></button></td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
     <script>
-        // var user_name = "Soumya"
-        var user_name =' {{ user.name }} '
-        // document.getElementById("demo").addEventListener("accessbtn", myFunction);
-        function displayAccess(){
-            alert(user_name+ " Enabled/Disabled")
-            document.getElementById(' {{user.id}} ').innerHTML = '{{ user.id }}'
+        function displayEnableorDisable(user_name,is_enable){
+            if(is_enable=="True"){
+                val = "Disabled"
+            }
+            else{
+                val = "Enabled"
+            }
+            alert("User " + user_name + " " + val)
         }
     </script>
 </body>

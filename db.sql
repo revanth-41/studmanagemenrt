@@ -11,3 +11,5 @@ DELETE FROM student_management_app_user;
 
 INSERT INTO student_management_app_access(user_id_id,access)
 VALUES(5,1),(6,1);
+
+UPDATE student_management_app_blogpost set status=0 where id=1;

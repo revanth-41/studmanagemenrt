@@ -16,7 +16,9 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    #show/hide blog status
+    status = models.BooleanField(default=True)
 
 class Access(models.Model):  
-    user_id = models.OneToOneField('User',on_delete=models.CASCADE)
+    user_id = models.OneToOneField('User',on_delete=models.CASCADE,related_name="userss")
     access = models.BooleanField(default=True)  
