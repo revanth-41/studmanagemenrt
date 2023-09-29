@@ -14,13 +14,11 @@ def allUsersDetails(request):
 
 def UserDetails(request,id):
     user = User.objects.get(id=id)
-    # img = UserProfile.objects.filter(user=user).first()
     blogOfUser = BlogPost.objects.filter(author_id = user)
     context = {
         'user' : user,
         'blog' : BlogPostForm(),
         'blogs' : blogOfUser,
-        # 'image' : img
     }
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -58,6 +56,11 @@ def EditBlockContent(request,id):
             form.save()
             return redirect('/app/home/details/{0}'.format(blogpost.author_id))
     return render(request,'editblog.html',context)
+
+def DeleteBlockContent(request,id):
+    blogpost = BlogPost.objects.get(id=id)
+    blogpost.delete()
+    return redirect('/app/home/details/{0}'.format(blogpost.author_id))
 
 
 def adminUserDetails(request,id):
@@ -142,7 +145,7 @@ def UserLoginView(request):
 
     Returns:
         - First it display the User login page with 2 input fields-Email,password.
-	- Then it display User page which shows the details of user
+	    - Then it display User page which shows the details of user
     """
     context = {}
     context["user"] = ''
@@ -180,11 +183,11 @@ def AdminLoginView(request):
 
     Parameters:
         - Email
-	- password
+	    - password
 
     Returns:
         - First it display the Admin login page with 2 input fields-Email,password.
-	- Then it display Summery page which shows all details of users
+	    - Then it display Summery page which shows all details of users
     """
     context = {}
     context["users"] = ''
@@ -223,7 +226,7 @@ def Register(request):
 
     Error Response:
         -phoneNumber validation-Please enter a 10 digit mobile number
-	-Password Validation-Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit
+	    -Password Validation-Password should contain 8 characters and at least one special character,one uppercase letter,one lowercase letter and one digit
     """
     context = {}
     context['form'] = UserForm()

@@ -13,6 +13,6 @@ urlpatterns = [
     path('home/details/',views.allUsersDetails),
     path('home/details/<int:id>/editprofilepic/',views.UpdateProfilePic),
     path('home/details/<int:id>/editblogcontent/',views.EditBlockContent),
-
+    path('home/details/<int:id>/deleteblogcontent/',views.DeleteBlockContent),
 ]
 
