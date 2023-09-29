@@ -15,6 +15,6 @@ urlpatterns = [
     path('home/details/access/<int:id>/',views.AccessEnableorDisable),
     path('home/details/<int:user_id>/blogstatus/<int:blog_id>/',views.ShoworHideBlog),
     path('home/details/<int:id>/editblogcontent/',views.EditBlockContent),
-
+    path('home/details/<int:id>/deleteblogcontent/',views.DeleteBlockContent),
 ]
 
