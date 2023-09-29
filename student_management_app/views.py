@@ -44,6 +44,21 @@ def UpdateProfilePic(request,id):
             return redirect('/app/home/details/{0}'.format(user.id))
     return render(request,'updatepic.html',context)
 
+def EditBlockContent(request,id):
+    blogpost = BlogPost.objects.get(id=id)
+    user = User.objects.get(id=blogpost.author_id)
+    context = {
+        'form': BlogPostForm(instance=blogpost),
+    }
+    
+    context['user']=user
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST,instance=blogpost)
+        if form.is_valid():
+            form.save()
+            return redirect('/app/home/details/{0}'.format(blogpost.author_id))
+    return render(request,'editblog.html',context)
+
 
 def adminUserDetails(request,id):
     user = User.objects.get(id=id)
