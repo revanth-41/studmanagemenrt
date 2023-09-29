@@ -4,131 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <style>
-        
-         .whole-page{
-            margin: 0px;
-            padding: 20px;
-            background-image: radial-gradient(white,lightblue,rgb(52, 167, 206));
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            box-sizing: border-box;
-        }
-        a{
-            text-decoration: none;
-            color: black;
-        }
-       
-        .logout-button{
-            background-image: radial-gradient(white,lightblue);
-            width: 150px;
-            height: 38px;
-            text-align: center;
-            border-width: 0px;
-            border-radius: 20px;
-        }
-        h2{
-            color: black;
-            margin-left: 10px;
-            font-size: 25px;
-        }
-        .table-style{
-            top: 70px;
-            border-radius: 10px;
-            background-color: aliceblue;
-            height: fit-content;
-            padding: 35px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            margin-bottom: 20px;
-        }
-        td{
-            /* border: 1px solid  rgba(0, 0, 0, 0.2); */
-            font-size: 19px;
-            padding: 8px;
-        }
-        
-        .colms{
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            color: rgb(52, 167, 206);
-            font-weight: bold;
-            font-size: 19px;
-            width: fit-content;
-        }
-        
-        .result{
-            font-weight: bold;
-            font-size: 19px;
-        }
-        th{
-            text-align: left;
-            padding: 8px;
-            text-decoration: underline;  
-        }
-        #userheading{
-            font-size: 27px;
-            color: rgb(230, 171, 45);
-        }
-        .right-container{
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            align-items: flex-end;
-        }
-        .blog-container{
-            width: 50%;
-            margin-top: 30px;
-            background-color: white;
-            margin-bottom: 50px;
-            padding: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 10px;
-            text-align: left;
-        }
-        .profile-img{
-            width: 200px;
-            height: 200px;
-            border-radius: 150px;        
-        }
-        .page-container{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-        .blog-form{
-            font-weight: bold;
-        }
-        .save-btn{
-            background-color: rgb(230, 171, 45);
-            width: 150px;
-            height: 38px;
-            text-align: center;
-            border-width: 0px;
-            border-radius: 20px;
-            margin-right: 22px;
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .left-container{
-            display: flex;
-            width: 35%;
-            flex-direction: column;
-            position: fixed;
-        }
-        .blog-td{
-            border-bottom: 1px solid black;
-            text-align: justify;
-        }
-        .blog-table-th{
-            text-decoration: none;
-            color: rgb(250, 173, 6);
-            font-weight: bolder;
-            font-size: 20px;
-        }
-        .get-detail{
-            width: 76px;
-            height: 40px;
-        }
-    </style> -->
     <style>
         body{
             min-height: 100vh;
@@ -345,6 +220,11 @@
                                 <button class="logout-button get-detail" onclick="displayShoworHide('{{blog.status}}','{{blog.title}}')">
                                 <a href="blogstatus/{{blog.id}}/">{% if blog.status == 1 %} Hide {% else %} Show {% endif %} </a>
                             </button></td>
+                            <td class="blog-td">
+                                <button class="logout-button get-detail">
+                                    <a href="http://127.0.0.1:8000/app/home/details/{{blog.id}}/editblogcontent/">edit blog</a>
+                                </button>
+                            </td>
                         </tr>
                         {%endfor%}
                     </table> 
