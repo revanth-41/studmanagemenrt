@@ -200,13 +200,12 @@
                             <th class="blog-table-th"></th>
                         </tr>
                         {%for blog in blogs%}
+                        {% if blog.status %}
                         <tr>
                             <td class="blog-td">{{blog.title}}</td>
                             <td class="blog-td">{{blog.content}}</td>
-                            <td class="blog-td"><button class="logout-button get-detail" onclick="displayAccess()">
-                                <a href="#">{% if is_enabled %} Hide {% else %} Show {% endif %} </a>
-                            </button></td>
                         </tr>
+                        {% endif %}
                         {%endfor%}
                     </table> 
                     {% endif %}
