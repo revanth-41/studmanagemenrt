@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import User,BlogPost,Access
 from .forms import UserForm,BlogPostForm,UpdateProfilePicForm
 
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password,make_password
 from django.contrib.auth.models import User as Admin
 
 def allUsersDetails(request):
@@ -186,7 +186,7 @@ def UserLoginView(request):
         password = request.POST.get("password")
         try:
             user_obj = User.objects.get(email=email)
-            if password == user_obj.password:
+            if check_password(password,user_obj.password) :
                 context['user'] = user_obj
                 access_obj = Access.objects.get(user_id_id=user_obj.id)
                 if access_obj.access == True:
@@ -277,13 +277,16 @@ def Register(request):
         if form.is_valid():
             form.save()
             user = User.objects.get(email=request.POST.get("email"))
+            user.password = make_password(user.password)
+            user.save()
             context['user'] = user
             user_access_obj = Access(user_id=User.objects.get(email=request.POST.get("email")),access=True)
             user_access_obj.save()
             context['data']=f"{request.POST.get('name')} registered succefully"
             return render(request,'Register.html',context)
         else:
-            print("Invalid Entry")
+            context['data'] = "Something wrong in given data"
+            return render(request,'Register.html',context)
     return render(request,'Register.html',context)
 
 def update(request,id):
@@ -321,10 +324,14 @@ def update(request,id):
         form = UserForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
             form.save()
+            user = User.objects.get(email=request.POST.get("email"))
+            user.password = make_password(user.password)
+            user.save()
             context['data']=f"details updated successfully"
             return redirect('/app/home/details/{0}'.format(user.id))
             #return render(request,'Register.html',context)
         else:
-            print("Invalid Entry")
+            context['data'] = "Something wrong in given data"
+            return render(request,'Register.html',context)
     return render(request,'Register.html',context)
 
